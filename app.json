@@ -1,1 +1,41 @@
 
+
+{
+  "name": "FAITH47-MD",
+  "description": "Javascript WhatsApp bot made by ZEZE TECH",
+  "logo": "https://files.catbox.moe/q8hps6.jpg",
+  "keywords": ["FAITH47-MD"],
+  "success_url": "/",
+
+    "stack": "container",
+  "env": {
+    "SESSION_ID": {
+      "description": "Put the session-id here.",
+      "required": true,
+      "value": ""
+   }, 
+
+
+    "AUTO_STATUS_SEEN": {
+      "description": "Make it true for automatic status seen.",
+      "required": false,
+      "value": "true"
+    }, 
+
+    "AUTO_STATUS_REACT": {
+      "description": "make it true for automatic status reaction or like.",
+      "required": false,
+      "value": "true"
+      
+    }
+
+},
+
+     "buildpacks": [
+        {
+            "url": "https://github.com/heroku/heroku-buildpack-nodejs.git"
+        }
+     ],
+  "stack": "heroku-24"
+}
+  
