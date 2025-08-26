@@ -1,57 +1,68 @@
 
+require('dotenv').config();
 const { default: makeWASocket, useSingleFileAuthState, DisconnectReason } = require("@whiskeysockets/baileys");
 const pino = require("pino");
 const { Boom } = require("@hapi/boom");
 const fs = require("fs");
-const { SESSION_ID } = process.env; // from config.env
-const { exec } = require("child_process");
+const path = require("path");
 
-// Use a single file auth state to store login
-const { state, saveState } = useSingleFileAuthState(`./session.json`);
+// Load SESSION_ID from config.env
+const { SESSION_ID } = process.env;
+
+// Use a single file auth state
+const { state, saveState } = useSingleFileAuthState('./session.json');
+
+// Load all plugins dynamically
+function loadPlugins(sock) {
+    const pluginsDir = path.join(__dirname, 'plugins');
+    if (!fs.existsSync(pluginsDir)) return;
+
+    const files = fs.readdirSync(pluginsDir).filter(file => file.endsWith('.js'));
+    for (const file of files) {
+        try {
+            const plugin = require(path.join(pluginsDir, file));
+            if (typeof plugin === 'function') plugin(sock);
+            console.log(`✅ Plugin loaded: ${file}`);
+        } catch (e) {
+            console.error(`❌ Failed to load plugin ${file}:`, e);
+        }
+    }
+}
 
 async function startBot() {
     const sock = makeWASocket({
         logger: pino({ level: "silent" }),
         auth: state,
-        browser: ["FAITH47-MD", "Chrome", "4.0"]
+        browser: ["FAITH47-MD", "Chrome", "4.5"]
+        // ⚠️ Hakuna printQRInTerminal
     });
 
-    // save state on any auth update
+    // Save auth state updates
     sock.ev.on("creds.update", saveState);
 
+    // Connection updates
     sock.ev.on("connection.update", (update) => {
         const { connection, lastDisconnect } = update;
-        if(connection === "close") {
-            const reason = new Boom(lastDisconnect?.error)?.output.statusCode;
-            console.log("Connection closed, reason:", reason);
-            // reconnect automatically if not logged out
-            if(reason !== DisconnectReason.loggedOut) {
+
+        if (connection === "close") {
+            const reason = new Boom(lastDisconnect?.error)?.output?.statusCode;
+            console.log("❌ Connection closed, reason:", reason);
+            if (reason !== DisconnectReason.loggedOut) {
+                console.log("🔄 Reconnecting...");
                 startBot();
             }
-        } else if(connection === "open") {
-            console.log("✅ Bot is online!");
+        } else if (connection === "open") {
+            console.log("✅ FAITH47-MD is online!");
         }
     });
 
-    // Example command
-    sock.ev.on("messages.upsert", async (m) => {
-        const msg = m.messages[0];
-        if(!msg.message || msg.key.fromMe) return;
-
-        const from = msg.key.remoteJid;
-        const text = msg.message.conversation || msg.message.extendedTextMessage?.text;
-
-        if(!text) return;
-
-        if(text.toLowerCase() === "ping") {
-            await sock.sendMessage(from, { text: "Pong!" });
-        }
-    });
+    // Load plugins
+    loadPlugins(sock);
 }
 
-// Check SESSION_ID exists
-if(!SESSION_ID) {
-    console.error("❌ SESSION_ID not found in config.env. Run session.js and sessionToString.js first!");
+// Make sure SESSION_ID exists
+if (!SESSION_ID) {
+    console.error("❌ SESSION_ID not found in config.env! Run session.js + sessionToString.js first.");
     process.exit(1);
 }
 
