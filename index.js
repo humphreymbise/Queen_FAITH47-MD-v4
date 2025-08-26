@@ -14,7 +14,6 @@ async function startBot() {
         logger: pino({ level: "silent" }),
         auth: state,
         browser: ["FAITH47-MD", "Chrome", "4.0"]
-        // note: no printQRInTerminal here
     });
 
     // save state on any auth update
