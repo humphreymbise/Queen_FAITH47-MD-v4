@@ -1,136 +1,348 @@
 {
-  "name": "Queen_FAITH-MD-v4",
-  "description": "ᴀ ᴊᴀᴠᴀsᴄʀɪᴘᴛ ʙᴏᴛ ᴅᴇᴠᴇʟᴏᴘᴇᴅ ʙʏ zeze",
+
+  "name": "✧MAKAMESCO-MD✧ MULT DEVICE BOT",
+
+  "description": "MAKAMESCO-MD Whatsapp device bot made by MAKAMESCO DIGITALSOLUTIONS enable a user to use whatsapp with more powerful features..",
+
   "keywords": [
-    "whatsapp bot"
+
+    "bot",
+
+    "node",
+
+    "baileys",
+
+    "whatsapp"
+
   ],
-  "logo":"https://files.catbox.moe/gs8gi2.jpg",
+
+  "logo": "https://files.catbox.moe/sigghy.jpg",
+
   "repository": "https://github.com/humphreymbise/Queen_FAITH47-MD-v4",
+
+  "succes_url": "/",
+
   "stack": "container",
-  "env": { 
-      "SESSION_ID": {
-      "description": "Ensure your session Id starts with the word CRISS-AI~$",
-      "required": true,
-      "value": ""
-    },
-      "STATUS_READ_MSG": {
-      "description": "Set the message bot sends after viewing a status",
-      "required": false,
-      "value": "*Status Seen*"
-    },
-    "MODE": {
-      "description": "mode public or self",
-      "required": true,
-      "value": "public"
-    },
-    "AUTO_STATUS_SEEN": {
-      "description": "make it true if you want bot to view status",
-      "required": false,
-      "value": "true"
-        },
-    "AUTOLIKE_STATUS": {
-      "description": "Make it true if you want bot to read and like status else leave blank",
-      "required": false,
-      "value": "true"
-    },
-    "ANTI_DELETE": {
-      "description": "make it true if you wanna enable antidelete mode",
-      "required": false,
-      "value": "true"
-      },
-    "AUTOLIKE_EMOJI": {
-      "description": "Input your custom status like emoji else leave blank to use default => 💚",
-      "required": false,
-      "value": "💚"
-      },
-    "AUTO_REACT": {
-      "description": "make it true if you want a bot to react on messages",
-      "required": false,
-      "value": ""
-    },
-    "AUTO_REPLY_STATUS": {
-      "description": "make it true if you want the bot to send message after viewing status else leave blank",
-      "required": false,
-      "value": ""
-    },
-    "SUDO_NUMBER": {
-      "description": "Put Sudo Numbers separated by comma Here. Sudos are limited to owner commands else leave blank",
-      "required": false,
-      "value": "255629667675"
-    },
-    "OWNER_NAME": {
-      "description": "Your name as the bot owner",
-      "required": true,
-      "value": "Queen_FAITH-MD-v4"
-    },
-    "OWNER_NUMBER": {
-      "description": "Your WhatsApp number",
-      "required": true,
-      "value": "255629667675"
-    },
-    "AUTO_READ": {
-      "description": "make it true if you want bot to read message",
-      "required": false,
-      "value": ""
-    },
-    "AUTO_TYPING": {
-      "description": "make it true if you want bot to show typing",
-      "required": false,
-      "value": ""
-    },
-    "AUTO_RECORDING": {
-      "description": "make it true if you want bot to show recording audio",
-      "required": false,
-      "value": ""
-    },
-    "ALWAYS_ONLINE": {
-      "description": "make it true if you want bot to show always online",
-      "required": false,
-      "value": "true"
-      },
-    "AUTO_BIO": {
-      "description": "make it true if you want the bot to update de bio after restart",
-      "required": false,
-      "value": "false"
-    },
-    "AUTO_BLOCK": {
-      "description": "make it true if you want bot to auto block only 212 numbers",
-      "required": false,
-      "value": ""
-    },
-    "REJECT_CALL": {
-      "description": "make it true if you want to reject call",
-      "required": false,
-      "value": ""
-     },
-    "WELCOME": {
-      "description": "make it true if you want to enable auto welcome",
-      "required": false,
-      "value": "" 
-      },
-    "ANTILINK": {
-      "description": "make it true if you want to enable auto delete links",
-      "required": false,
-      "value": ""  
-    },
+
+  "env": {
+
     "PREFIX": {
-      "description": "Your Bot Prefix default (.)",
-      "required": false,
-      "value": ""
+
+      "description": "Choose your bot's prefix eg !,#,*,.",
+
+      "value": ".",
+
+      "required": true
+
+    },
+
+    "AUTO_READ_STATUS": {
+
+      "description": "Your contact status will be read automatically (type 'yes' to activate or 'no' to deactivate; don't write in capital letters)",
+
+      "value": "yes",
+
+      "required": false
+
+    },
+
+      "AUDIO_REPLY":
+
+    {
+
+      "description":"Enter yes for your bot to auto reply audio in all chats",
+
+      "value":"no",
+
+      "required":false
+
+    },
+
+    "AUTO_REPLY": {
+
+      "description": "when enabled it automatically sends  auto reply message to members in your chattings",
+
+      "value": "no",
+
+      "required": false
+
+    },
+
+    "AUTO_REACT_STATUS": {
+
+      "description": "Your contact status will be react automatically (type 'yes' to activate or 'no' to deactivate; don't write in capital letters)",
+
+      "value": "yes",
+
+      "required": false
+
+    },
+
+    "AUTO_BIO": {
+
+      "description": "This automatically update your bio status.Always make sure you insert your OWNER_NAME since it uses that to update your bio name status",
+
+      "value": "yes",
+
+      "required": false
+
+    },
+
+      "AUTO_SAVE_CONTACTS":
+
+    {
+
+      "description":"Enter yes for your bot to auto save contacts",
+
+      "value":"no",
+
+      "required":false
+
+    },
+
+    "AUTO_DOWNLOAD_STATUS": {
+
+      "description": "Your contact status will be downloaded automatically and sent to you (type 'yes' to activate or 'no' to deactivate; don't write in capital letters)",
+
+      "value": "no",
+
+      "required": false
+
+    },
+
+    "PM_PERMIT": {
+
+      "description": "Restrict other users from using your bot in private messages (type 'yes' to activate or 'no' to deactivate; don't write in capital letters)",
+
+      "value": "no",
+
+      "required": false
+
+    },
+
+    "AUTO_STATUS_TEXT": {
+
+      "description": "type your genuine status message",
+
+      "value": "Your status have been viewed by MAKAMESCO-XMD.",
+
+      "required": false
+
+    },
+
+    "AUTO_STATUS_REPLY": {
+
+      "description": "type your genuine status message",
+
+      "value": "no",
+
+      "required": false
+
+    },
+
+    "ANTI_CALL_TEXT": {
+
+      "description": "Type your anticall message to always send when calls are declined.You can as well leave it blank",
+
+      "value": "My owner don't receive any call now because it's busy",
+
+      "required": false
+
+    },
+
+    "BOT_NAME": {
+
+      "description": "you must name your bot huh!!!!!!",
+
+      "value": "✧MAKAMESCO-MD✧",
+
+      "required": false 
+
+    },
+
+    "PUBLIC_MODE": {
+
+      "description": "Set 'yes' to make your bot public or 'no' to keep it private",
+
+      "value": "yes",
+
+      "required": false
+
+    },
+
+    "HEROKU_API_KEY": {
+
+      "description": "Insert your Heroku API key (required)",
+
+      "value": "",
+
+      "required": true
+
+    },
+
+    "HEROKU_APP_NAME": {
+
+      "description": "Insert your Heroku app name (required)",
+
+      "value": "",
+
+      "required": true
+
+    },
+
+    "SESSION_ID": {
+
+      "description": "Enter your session ID, the code you receive after scanning the QR code",
+
+      "value": "",
+
+      "required": true
+
+    },
+
+    "OWNER_NAME": {
+
+      "description": "don't you have a name bro.Insert your name here!!",
+
+      "value": "MAKAMESCO-MD ⚡",
+
+      "required": false
+
+    },
+
+    "URL": {
+
+      "description": "you must add your bot image url.Get your image url now and fill it here",
+
+      "value": "https://files.catbox.moe/uvrcoi.jpg",
+
+      "required": true
+
+    },
+
+    "AUTO_READ_MESSAGES": {
+
+      "description": "yes toactivate no to deactivate",
+
+      "value": "no",
+
+      "required": false  
+
+    },
+
+    "NUMERO_OWNER": {
+
+      "description": "Your phone number (exclude '+' and area code, e.g., '254739385768')",
+
+      "value": "254769995625",
+
+      "required": false
+
+    },
+
+    "WARN_COUNT": {
+
+      "description": "Set the warning limit for warning commands",
+
+      "value": "5",
+
+      "required": false
+
+    },
+
+    "STARTING_BOT_MESSAGE": {
+
+      "description": "Set 'yes' to display a starting bot message or 'no' to disable it",
+
+      "value": "yes",
+
+      "required": true
+
+    },
+
+    "PRESENCE": {
+
+      "description": "Mark your presence: 1 for online, 2 for typing, 3 for recording, or leave blank for real state",
+
+      "value": "1",
+
+      "required": false
+
+    },
+
+    "ANTI_DELETE_MESSAGE": {
+
+      "description": "Enable anti-delete message (set 'yes' to activate or 'no' to deactivate)",
+
+      "value": "yes",
+
+      "required": false
+
+    },
+
+    "ANTI_CALL": {
+
+      "description": "Automatically decline incoming calls (set 'on' to activate or 'off' to deactivate)",
+
+      "value": "no",
+
+      "required": false
+
+    },
+
+    "AUTO_BLOCK": {
+
+      "description": "Type true if you want bot to automatically  block those who spam your dm ",
+
+      "value": "no",
+
+      "required": false
+
+    },
+
+    "CHAT_BOT": {
+
+      "description": " If you want bot to chat an answer messages in dem's put 'yes' to activate and 'no' to deactivate.",
+
+      "value": "no",
+
+      "required": false
+
+    },
+
+    "AUTO_REACTION": {
+
+      "description": "Set 'yes' to enable bot reactions to messages in private chats",
+
+      "value": "no",
+
+      "required": false
+
     }
-    },
-    "buildpacks": [
-    {
-      "url": "heroku/nodejs"
-    },
-    {
-      "url": "https://github.com/DuckyTeam/heroku-buildpack-imagemagick.git"
-    },
-    {
-      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
-    },
-    {
-      "url": "https://github.com/clhuang/heroku-buildpack-webp-binaries.git"
+
+  },
+
+  "formation": {
+
+    "worker": {
+
+      "quantity": 1,
+
+      "size": "standard-2x"
+
     }
+
+  },
+
+  "addons": [
+
+    {
+
+      "plan": "heroku-postgresql:essential-0"
+
+    }
+
   ]
+
 }
+
