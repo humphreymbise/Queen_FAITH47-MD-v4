@@ -1,83 +1,52 @@
+// config.js
+const fs = require("fs");
+require("dotenv").config();
 
-const fs = require('fs');
-if (fs.existsSync('config.env')) require('dotenv').config({ path: './config.env' });
-
-function convertToBool(text, fault = 'true') {
-    return text === fault ? true : false;
-}
-module.exports = {
-SESSION_ID: process.env.SESSION_ID || "SESSION_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-// add your Session Id 
-AUTO_STATUS_SEEN: process.env.AUTO_STATUS_SEEN || "true",
-// make true or false status auto seen
-AUTO_STATUS_REPLY: process.env.AUTO_STATUS_REPLY || "false",
-// make true if you want auto reply on status 
-AUTO_STATUS_REACT: process.env.AUTO_STATUS_REACT || "true",
-// make true if you want auto reply on status 
-AUTO_STATUS_MSG: process.env.AUTO_STATUS_MSG || "*SEEN YOUR STATUS BY FAITH47-MD 🤍*",
-// set the auto reply massage on status reply  
-WELCOME: process.env.WELCOME || "false",
-// true if want welcome and goodbye msg in groups    
-ADMIN_EVENTS: process.env.ADMIN_EVENTS || "false",
-// make true to know who dismiss or promoted a member in group
-ANTI_LINK: process.env.ANTI_LINK || "false",
-// make anti link true,false for groups 
-MENTION_REPLY: process.env.MENTION_REPLY || "false",
-// make true if want auto voice reply if someone menetion you 
-MENU_IMAGE_URL: process.env.MENU_IMAGE_URL || "https://files.catbox.moe/q8hps6.jpg",
-// add custom menu and mention reply image url
-PREFIX: process.env.PREFIX || ".",
-// add your prifix for bot   
-BOT_NAME: process.env.BOT_NAME || "FAITH47-MD",
-// add bot namw here for menu
-STICKER_NAME: process.env.STICKER_NAME || "FAITH47-MD",
-// type sticker pack name 
-CUSTOM_REACT: process.env.CUSTOM_REACT || "false",
-// make this true for custum emoji react    
-CUSTOM_REACT_EMOJIS: process.env.CUSTOM_REACT_EMOJIS || "💝,💖,💗,❤️‍🩹,❤️,🧡,💛,💚,💙,💜,🤎,🖤,🤍",
-// chose custom react emojis by yourself 
-DELETE_LINKS: process.env.DELETE_LINKS || "true",
-// automatic delete links witho remove member 
-OWNER_NUMBER: process.env.OWNER_NUMBER || "255747397675",
-// add your bot owner number
-OWNER_NAME: process.env.OWNER_NAME || "zezetech",
-// add bot owner name
-DESCRIPTION: process.env.DESCRIPTION || "*© POWER BY zezetech*",
-// add bot owner name    
-ALIVE_IMG: process.env.ALIVE_IMG || "https://files.catbox.moe/q8hps6.jpg",
-// add img for alive msg
-LIVE_MSG: process.env.LIVE_MSG || "> Zinda Hun Yar *FAITH47*⚡",
-// add alive msg here 
-READ_MESSAGE: process.env.READ_MESSAGE || "false",
-// Turn true or false for automatic read msgs
-AUTO_REACT: process.env.AUTO_REACT || "false",
-// make this true or false for auto react on all msgs
-ANTI_BAD: process.env.ANTI_BAD || "false",
-// false or true for anti bad words  
-MODE: process.env.MODE || "public",
-// make bot public-private-inbox-group 
-ANTI_LINK_KICK: process.env.ANTI_LINK_KICK || "true",
-// make anti link true,false for groups 
-AUTO_VOICE: process.env.AUTO_VOICE || "false",
-// make true for send automatic voices
-AUTO_STICKER: process.env.AUTO_STICKER || "false",
-// make true for automatic stickers 
-AUTO_REPLY: process.env.AUTO_REPLY || "false",
-// make true or false automatic text reply 
-ALWAYS_ONLINE: process.env.ALWAYS_ONLINE || "false",
-// maks true for always online 
-PUBLIC_MODE: process.env.PUBLIC_MODE || "true",
-// make false if want private mod
-AUTO_TYPING: process.env.AUTO_TYPING || "false",
-// true for automatic show typing   
-READ_CMD: process.env.READ_CMD || "false",
-// true if want mark commands as read 
-DEV: process.env.DEV || "255629667675",
-//replace with your whatsapp number        
-ANTI_VV: process.env.ANTI_VV || "true",
-// true for anti once view 
-ANTI_DEL_PATH: process.env.ANTI_DEL_PATH || "log", 
-// change it to 'same' if you want to resend deleted message in same chat 
-AUTO_RECORDING: process.env.AUTO_RECORDING || "false"
-// make it true for auto recoding 
+const config = {
+  SESSION_ID: process.env.SESSION_ID || "CRISS-AI~WZj0KrAR",
+  PREFIX: process.env.PREFIX || '.',
+//let's add menu captions by criss vevo
+   BOT_NAME: process.env.BOT_NAME || "ᴄʀɪss ᴀɪ",
+   BOT: process.env.BOT || "hello 👋",
+  // lets add new cmd by lord joel
+  NEW_CMD: process.env.NEW_CMD || "ᴀᴅᴅᴠᴀʀ\n│ sᴜᴅᴏ\| criss",
+  CAPTION: process.env.CAPTION|| "ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴄʀɪss ᴠᴇᴠᴏ",
+// don't use my codes without a permission 🙏
+  AUTO_STATUS_SEEN: process.env.AUTO_STATUS_SEEN !== undefined ? process.env.AUTO_STATUS_SEEN === 'true' : true,
+  AUTO_BIO: process.env.AUTO_BIO !== undefined ? process.env.AUTO_BIO === 'true' : true,
+  AUTOLIKE_STATUS: process.env.AUTOLIKE_STATUS !== undefined ? process.env.AUTOLIKE_STATUS === 'true' : false,
+  /*anti left by joel xd tech*/
+  ANTI_LEFT: process.env.ANTI_LEFT !== undefined ? process.env.ANTI_LEFT === 'true' : true,
+  AUTOLIKE_EMOJI: process.env.AUTOLIKE_EMOJI || '💚', // For liking status updates(stories)
+  AUTO_REPLY_STATUS: process.env.AUTO_REPLY_STATUS !== undefined ? process.env.AUTO_REPLY_STATUS === 'true' : false,
+  STATUS_READ_MSG: process.env.STATUS_READ_MSG || 'Status Viewed by joel-Md',
+  AUTO_STICKER: process.env.AUTO_STICKER !== undefined ? process.env.AUTO_STICKER === 'true' : false,
+  AUTO_READ: process.env.AUTO_READ !== undefined ? process.env.AUTO_READ === 'true' : false,
+  AUTO_TYPING: process.env.AUTO_TYPING !== undefined ? process.env.AUTO_TYPING === 'true' : false,
+  AUTO_RECORDING: process.env.AUTO_RECORDING !== undefined ? process.env.AUTO_RECORDING === 'true' : false,
+  ALWAYS_ONLINE: process.env.ALWAYS_ONLINE !== undefined ? process.env.ALWAYS_ONLINE === 'true' : false,
+  AUTO_REACT: process.env.AUTO_REACT !== undefined ? process.env.AUTO_REACT === 'true' : false,
+   /*auto block only for 212 */
+  AUTO_BLOCK: process.env.AUTO_BLOCK !== undefined ? process.env.AUTO_BLOCK === 'true' : true,
+  /*joel james tech added anti delete cmd*/
+  ANTI_DELETE: process.env.ANTI_DELETE !== undefined ? process.env.ANTI_DELETE === 'true' : true,
+  /*lets add auto bot respond*/
+  CHAT_BOT: process.env.CHAT_BOT !== undefined ? process.env.CHAT_BOT === 'true' : true,
+  /*lets add chat bot mode*/
+  CHAT_BOT_MODE: process.env.CHAT_BOT_MODE || "public",
+  /*how about Lydia chat bot*/
+  SLIKE: process.env.SLIKE !== undefined ? process.env.SLIKE === 'true' : true,
+  REJECT_CALL: process.env.REJECT_CALL !== undefined ? process.env.REJECT_CALL === 'true' : false, 
+  NOT_ALLOW: process.env.NOT_ALLOW !== undefined ? process.env.NOT_ALLOW === 'true' : true,
+  MODE: process.env.MODE || "public",
+  DELETED_MESSAGES_CHAT_ID: process.env.DELETED_MESSAGES_CHAT_ID || "12345678901",
+  OWNER_NAME: process.env.OWNER_NAME || "ᴄʀɪss ᴠᴇᴠᴏ",
+  /* ['255687068672@s.whatsapp.net', '255687068672@s.whatsapp.net']*/
+  OWNER_NUMBER: process.env.OWNER_NUMBER || "255687068672",
+  SUDO_NUMBER: process.env.SUDO_NUMBER || "255687068672",
+  GEMINI_KEY: process.env.GEMINI_KEY || "AIzaSyCUPaxfIdZawsKZKqCqJcC-GWiQPCXKTDc",
+  WELCOME: process.env.WELCOME !== undefined ? process.env.WELCOME === 'true' : false, 
 };
+
+
+module.exports = config;
