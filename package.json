@@ -3,7 +3,7 @@
   "version": "10.8.1",
   "description": "Zeze tech",
   "main": "index.js",
-  "type": "module",
+  "type": "import",
   "scripts": {
     "start": "pm2 start index.js --deep-monitoring --attach --name  Queen_FAITH47-MD-v4",
     "stop": "pm2 stop  Queen_FAITH47-MD-v4",
