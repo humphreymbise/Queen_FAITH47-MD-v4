@@ -5,12 +5,12 @@ require("dotenv").config();
 const config = {
   SESSION_ID: process.env.SESSION_ID || "CRISS-AI~WZj0KrAR",
   PREFIX: process.env.PREFIX || '.',
-//let's add menu captions by criss vevo
-   BOT_NAME: process.env.BOT_NAME || "ᴄʀɪss ᴀɪ",
+//let's add menu captions by zeze tech
+   BOT_NAME: process.env.BOT_NAME || "Queen_FAITH-MD-v4",
    BOT: process.env.BOT || "hello 👋",
   // lets add new cmd by lord joel
   NEW_CMD: process.env.NEW_CMD || "ᴀᴅᴅᴠᴀʀ\n│ sᴜᴅᴏ\| criss",
-  CAPTION: process.env.CAPTION|| "ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴄʀɪss ᴠᴇᴠᴏ",
+  CAPTION: process.env.CAPTION|| "ᴘᴏᴡᴇʀᴇᴅ ʙʏ zeze tech",
 // don't use my codes without a permission 🙏
   AUTO_STATUS_SEEN: process.env.AUTO_STATUS_SEEN !== undefined ? process.env.AUTO_STATUS_SEEN === 'true' : true,
   AUTO_BIO: process.env.AUTO_BIO !== undefined ? process.env.AUTO_BIO === 'true' : true,
@@ -40,10 +40,10 @@ const config = {
   NOT_ALLOW: process.env.NOT_ALLOW !== undefined ? process.env.NOT_ALLOW === 'true' : true,
   MODE: process.env.MODE || "public",
   DELETED_MESSAGES_CHAT_ID: process.env.DELETED_MESSAGES_CHAT_ID || "12345678901",
-  OWNER_NAME: process.env.OWNER_NAME || "ᴄʀɪss ᴠᴇᴠᴏ",
-  /* ['255687068672@s.whatsapp.net', '255687068672@s.whatsapp.net']*/
-  OWNER_NUMBER: process.env.OWNER_NUMBER || "255687068672",
-  SUDO_NUMBER: process.env.SUDO_NUMBER || "255687068672",
+  OWNER_NAME: process.env.OWNER_NAME || "Queen_FAITH-MD-v4",
+  /* ['255687068672@s.whatsapp.net', '255629667676@s.whatsapp.net']*/
+  OWNER_NUMBER: process.env.OWNER_NUMBER || "255629667675",
+  SUDO_NUMBER: process.env.SUDO_NUMBER || "255629667675",
   GEMINI_KEY: process.env.GEMINI_KEY || "AIzaSyCUPaxfIdZawsKZKqCqJcC-GWiQPCXKTDc",
   WELCOME: process.env.WELCOME !== undefined ? process.env.WELCOME === 'true' : false, 
 };
