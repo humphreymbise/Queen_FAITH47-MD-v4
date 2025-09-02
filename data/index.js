@@ -1,36 +1,5 @@
-const { AntiDelDB,
-    initializeAntiDeleteSettings,
-    setAnti,
-    getAnti,
-    getAllAntiDeleteSettings, } = require('./antidel');
-const {
-    saveContact,
-    loadMessage,
-    getName,
-    getChatSummary,
-    saveGroupMetadata,
-    getGroupMetadata,
-    saveMessageCount,
-    getInactiveGroupMembers,
-    getGroupMembersMessageCount,
-    saveMessage,
-} = require('./store');
+import Handler from './handler.js'
+import Callupdate from './call-handler.js'
+import GroupUpdate from './group-handler.js'
 
-
-module.exports = {
-    AntiDelDB,
-    initializeAntiDeleteSettings,
-    setAnti,
-    getAnti,
-    getAllAntiDeleteSettings,
-    saveContact,
-    loadMessage,
-    getName,
-    getChatSummary,
-    saveGroupMetadata,
-    getGroupMetadata,
-    saveMessageCount,
-    getInactiveGroupMembers,
-    getGroupMembersMessageCount,
-    saveMessage,
-};
+export { Handler, Callupdate, GroupUpdate };
