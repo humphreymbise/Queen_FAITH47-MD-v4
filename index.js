@@ -1,109 +1,228 @@
 
-const { default: makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, DisconnectReason, Browsers, jidNormalizedUser, getContentType } = require('@whiskeysockets/baileys');
-const fs = require('fs');
-const path = require('path');
-const os = require('os');
-const P = require('pino');
-const config = require('./config'); // make sure you have config.js with PREFIX, OWNER, etc.
-const { AntiDelete, saveMessage, getGroupAdmins } = require('./lib/functions'); // make sure these functions exist
 
-const tempDir = path.join(os.tmpdir(), 'cache-temp');
-if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir);
+import dotenv from 'dotenv';
+dotenv.config();
 
-const prefix = config.PREFIX || '.';
-const ownerNumber = config.OWNER || ['923191089077'];
+import {
+    makeWASocket,
+    Browsers,
+    fetchLatestBaileysVersion,
+    DisconnectReason,
+    useMultiFileAuthState,
+} from '@whiskeysockets/baileys';
+import { Handler, Callupdate, GroupUpdate } from './joelXtec/event/index.js';
+import express from 'express';
+import pino from 'pino';
+import fs from 'fs';
+import { File } from 'megajs';
+import NodeCache from 'node-cache';
+import path from 'path';
+import chalk from 'chalk';
+import moment from 'moment-timezone';
+import axios from 'axios';
+import config from './config.cjs';
+import pkg from './lib/autoreact.cjs';
+const { emojis, doReact } = pkg;
+const prefix = process.env.PREFIX || config.PREFIX;
+const sessionName = "session";
+const app = express();
+const orange = chalk.bold.hex("#FFA500");
+const lime = chalk.bold.hex("#32CD32");
+let useQR = false;
+let initialConnection = true;
+const PORT = process.env.PORT || 3000;
 
-// Clear temp files every 5 minutes
-setInterval(() => {
-    fs.readdir(tempDir, (err, files) => {
-        if (err) return console.error(err);
-        for (const file of files) {
-            fs.unlink(path.join(tempDir, file), console.error);
-        }
-    });
-}, 5 * 60 * 1000);
+const MAIN_LOGGER = pino({
+    timestamp: () => `,"time":"${new Date().toJSON()}"`
+});
+const logger = MAIN_LOGGER.child({});
+logger.level = "trace";
 
-async function startBot() {
-    console.log('Connecting to WhatsApp...');
-    const { state, saveCreds } = await useMultiFileAuthState('./sessions');
-    const { version } = await fetchLatestBaileysVersion();
+const msgRetryCounterCache = new NodeCache();
 
-    const sock = makeWASocket({
-        logger: P({ level: 'silent' }),
-        printQRInTerminal: false,
-        browser: Browsers.macOS('FAITH_Bot'),
-        auth: state,
-        version
-    });
+const __filename = new URL(import.meta.url).pathname;
+const __dirname = path.dirname(__filename);
 
-    // Connection updates
-    sock.ev.on('connection.update', ({ connection, lastDisconnect }) => {
-        if (connection === 'close') {
-            if ((lastDisconnect.error)?.output?.statusCode !== DisconnectReason.loggedOut) {
-                console.log('Reconnecting...');
-                startBot();
-            } else {
-                console.log('Logged out. Session removed.');
-            }
-        } else if (connection === 'open') {
-            console.log('Bot connected ✅');
+const sessionDir = path.join(__dirname, 'session');
+const credsPath = path.join(sessionDir, 'creds.json');
 
-            // Load plugins safely
-            const pluginsDir = path.join(__dirname, 'plugins');
-            if (fs.existsSync(pluginsDir)) {
-                fs.readdirSync(pluginsDir).forEach(file => {
-                    if (file.endsWith('.js')) {
-                        try {
-                            require(path.join(pluginsDir, file));
-                        } catch (err) {
-                            console.error('Error loading plugin:', file, err);
-                        }
-                    }
-                });
-            }
-            console.log('Plugins loaded ✅');
-        }
-    });
-
-    sock.ev.on('creds.update', saveCreds);
-
-    // Message handler
-    sock.ev.on('messages.upsert', async (m) => {
-        const msg = m.messages[0];
-        if (!msg.message) return;
-
-        let content = msg.message;
-        if (getContentType(content) === 'ephemeralMessage') content = content.ephemeralMessage.message;
-
-        const sender = msg.key.participant || msg.key.remoteJid;
-        const isGroup = msg.key.remoteJid.endsWith('@g.us');
-        const groupMetadata = isGroup ? await sock.groupMetadata(msg.key.remoteJid) : null;
-        const groupAdmins = isGroup ? await getGroupAdmins(groupMetadata) : [];
-
-        // Save message for anti-delete
-        await saveMessage(msg);
-
-        // Anti-Delete
-        if (!msg.message) await AntiDelete(sock, m);
-
-        // Command handling
-        let text = content?.conversation || content?.extendedTextMessage?.text || '';
-        const isCmd = text.startsWith(prefix);
-        if (!isCmd) return;
-
-        const args = text.slice(prefix.length).trim().split(/ +/);
-        const commandName = args.shift().toLowerCase();
-
-        // Example command
-        if (commandName === 'ping') {
-            await sock.sendMessage(msg.key.remoteJid, { text: 'Pong!' }, { quoted: msg });
-        }
-
-        // TODO: Add more commands
-    });
-
-    return sock;
+if (!fs.existsSync(sessionDir)) {
+    fs.mkdirSync(sessionDir, { recursive: true });
 }
 
-// Start bot
-startBot().catch(err => console.error(err));
+async function downloadSessionData() {
+    console.log("Debugging SESSION_ID:", config.SESSION_ID);
+
+    if (!config.SESSION_ID) {
+        console.error('Please add your session to SESSION_ID env !!');
+        return false;
+    }
+
+    const sessdata = config.SESSION_ID.split("CRISS-AI~")[1];
+
+    if (!sessdata || !sessdata.includes("#")) {
+        console.error('Invalid SESSION_ID format! It must contain both file ID and decryption key.');
+        return false;
+    }
+
+    const [fileID, decryptKey] = sessdata.split("#");
+
+    try {
+        console.log("🔄 Downloading Session...");
+        const file = File.fromURL(`https://mega.nz/file/${fileID}#${decryptKey}`);
+
+        const data = await new Promise((resolve, reject) => {
+            file.download((err, data) => {
+                if (err) reject(err);
+                else resolve(data);
+            });
+        });
+
+        await fs.promises.writeFile(credsPath, data);
+        console.log("🔒 Session Successfully Loaded !!");
+        return true;
+    } catch (error) {
+        console.error('❌ Failed to download session data:', error);
+        return false;
+    }
+}
+
+async function start() {
+    try {
+        const { state, saveCreds } = await useMultiFileAuthState(sessionDir);
+        const { version, isLatest } = await fetchLatestBaileysVersion();
+        console.log(`using WA v${version.join('.')}, isLatest: ${isLatest}`);
+        
+        const Matrix = makeWASocket({
+            version,
+            logger: pino({ level: 'silent' }),
+            printQRInTerminal: useQR,
+            browser: ["CRISS-AI", "safari", "3.3"],
+            auth: state,
+            getMessage: async (key) => {
+                if (store) {
+                    const msg = await store.loadMessage(key.remoteJid, key.id);
+                    return msg.message || undefined;
+                }
+                return { conversation: "whatsapp user bot" };
+            }
+        });
+
+Matrix.ev.on('connection.update', (update) => {
+    const { connection, lastDisconnect } = update;
+    if (connection === 'close') {
+        if (lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut) {
+            start();
+        }
+    } else if (connection === 'open') {
+        if (initialConnection) {
+            console.log(chalk.green("Connected Successfull"));
+            Matrix.sendMessage(Matrix.user.id, { 
+                image: { url: "https://files.catbox.moe/gs8gi2.jpg" }, 
+                caption: `*╭─────────────━┈⊷*
+*│ ᴄʀɪss-ᴀɪ-ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴs*
+*╰─────────────━┈⊷*
+
+*╭─────────────━┈⊷*
+*│ᴄʀɪss ᴀɪ ɪs ᴏɴʟɪɴᴇ*
+*│ᴘʀᴇғɪx : [${config.PREFIX}*]
+*│ᴍᴏᴅᴇ :[ ${config.MODE}*]
+*│ᴏᴡɴᴇʀ: ᴄʀɪss ᴠᴇᴠᴏ*
+*╰─────────────━┈⊷*
+
+*ᴘᴏᴡᴇʀᴇᴅ ʙʏ ʟᴏʀᴅ ᴄʀɪss ᴠᴇᴠᴏ*`
+            });
+            initialConnection = false;
+        } else {
+            console.log(chalk.blue("♻️ Connection reestablished after restart."));
+        }
+    }
+});
+        
+        Matrix.ev.on('creds.update', saveCreds);
+
+        Matrix.ev.on("messages.upsert", async chatUpdate => await Handler(chatUpdate, Matrix, logger));
+        Matrix.ev.on("call", async (json) => await Callupdate(json, Matrix));
+        Matrix.ev.on("group-participants.update", async (messag) => await GroupUpdate(Matrix, messag));
+
+        if (config.MODE === "public") {
+            Matrix.public = true;
+        } else if (config.MODE === "private") {
+            Matrix.public = false;
+        }
+
+        Matrix.ev.on('messages.upsert', async (chatUpdate) => {
+            try {
+                const mek = chatUpdate.messages[0];
+                console.log(mek);
+                if (!mek.key.fromMe && config.AUTO_REACT) {
+                    console.log(mek);
+                    if (mek.message) {
+                        const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+                        await doReact(randomEmoji, mek, Matrix);
+                    }
+                }
+            } catch (err) {
+                console.error('Error during auto reaction:', err);
+            }
+        });
+        
+        Matrix.ev.on('messages.upsert', async (chatUpdate) => {
+    try {
+        const mek = chatUpdate.messages[0];
+        const fromJid = mek.key.participant || mek.key.remoteJid;
+        if (!mek || !mek.message) return;
+        if (mek.key.fromMe) return;
+        if (mek.message?.protocolMessage || mek.message?.ephemeralMessage || mek.message?.reactionMessage) return; 
+        if (mek.key && mek.key.remoteJid === 'status@broadcast' && config.AUTO_STATUS_SEEN) {
+            await Matrix.readMessages([mek.key]);
+            
+            if (config.AUTO_STATUS_REPLY) {
+                const customMessage = config.STATUS_READ_MSG || '✅ Auto Status Seen Bot';
+                await Matrix.sendMessage(fromJid, { text: customMessage }, { quoted: mek });
+            }
+
+            // React to the status message with ❤️ if SLIKE is enabled
+            if (config.SLIKE) {
+                const emoji = '❤️';  // Use the ❤️ emoji for auto-react
+                console.log(`Reacting to status with emoji: ${emoji}`);
+                await doReact(emoji, mek, Matrix);
+            }
+        }
+    } catch (err) {
+        console.error('Error handling messages.upsert event:', err);
+    }
+});
+
+    } catch (error) {
+        console.error('Critical Error:', error);
+        process.exit(1);
+    }
+}
+
+async function init() {
+    if (fs.existsSync(credsPath)) {
+        console.log("🔒 Session file found, proceeding without QR code.");
+        await start();
+    } else {
+        const sessionDownloaded = await downloadSessionData();
+        if (sessionDownloaded) {
+            console.log("🔒 Session downloaded, starting bot.");
+            await start();
+        } else {
+            console.log("No session found or downloaded, QR code will be printed for authentication.");
+            useQR = true;
+            await start();
+        }
+    }
+}
+
+init();
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
