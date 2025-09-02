@@ -1,16 +1,16 @@
 {
-  "name": " CRISS AI BOT",
+  "name": " Queen_FAITH47-MD-v4",
   "version": "10.8.1",
-  "description": "Criss Vevo",
+  "description": "Zeze tech",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "pm2 start index.js --deep-monitoring --attach --name  CRISS AI BOT",
-    "stop": "pm2 stop  CRISS AI BOT",
-    "restart": "pm2 restart  CRISS AI BOT"
+    "start": "pm2 start index.js --deep-monitoring --attach --name  Queen_FAITH47-MD-v4",
+    "stop": "pm2 stop  Queen_FAITH47-MD-v4",
+    "restart": "pm2 restart  Queen_FAITH47-MD-v4"
   },
   "keywords": ["lord-joel", "whatsapp-bot", "whatsapp md bot"],
-  "author": " CRISS AI BOT",
+  "author": "Queen_FAITH47-MD-v4",
   "license": "ISC",
   "dependencies": {
     "@whiskeysockets/baileys": "npm:@fizzxydev/baileys-pro@8.5.12",
