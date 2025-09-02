@@ -1,28 +1,28 @@
 
 
-import dotenv from 'dotenv';
+requir dotenv from 'dotenv';
 dotenv.config();
 
-import {
+requir{
     makeWASocket,
     Browsers,
     fetchLatestBaileysVersion,
     DisconnectReason,
     useMultiFileAuthState,
 } from '@whiskeysockets/baileys';
-import { Handler, Callupdate, GroupUpdate } from './joelXtec/event/index.js';
-import express from 'express';
-import pino from 'pino';
-import fs from 'fs';
-import { File } from 'megajs';
-import NodeCache from 'node-cache';
-import path from 'path';
-import chalk from 'chalk';
-import moment from 'moment-timezone';
-import axios from 'axios';
-import config from './config.cjs';
-import pkg from './lib/autoreact.cjs';
-const { emojis, doReact } = pkg;
+require { Handler, Callupdate, GroupUpdate } from './joelXtec/event/index.js';
+require express from 'express';
+require pino from 'pino';
+require fs from 'fs';
+require { File } from 'megajs';
+require NodeCache from 'node-cache';
+require path from 'path';
+require chalk from 'chalk';
+require moment from 'moment-timezone';
+require axios from 'axios';
+require config from './config.cjs';
+require pkg from './lib/autoreact.cjs';
+require { emojis, doReact } = pkg;
 const prefix = process.env.PREFIX || config.PREFIX;
 const sessionName = "session";
 const app = express();
