@@ -1,19 +1,19 @@
-# Base image
-FROM node:16
+FROM node:lts-buster
 
-# Set working directory
-WORKDIR /usr/src/app
+RUN apt-get update && \
+  apt-get install -y \
+  ffmpeg \
+  imagemagick \
+  webp && \
+  apt-get upgrade -y && \
+  rm -rf /var/lib/apt/lists/*
 
-# Copy package.json and install dependencies
-COPY package*.json ./
-RUN npm install
+COPY package.json .
 
-# Copy application source code
+RUN npm install && npm install -g qrcode-terminal pm2
+
 COPY . .
 
-# Expose the port the app runs on
 EXPOSE 3000
 
-# Start the application
 CMD ["npm", "start"]
-
