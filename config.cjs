@@ -1,4 +1,4 @@
-// config.js
+// config.cjs
 const fs = require("fs");
 require("dotenv").config();
 
