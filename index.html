@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>deployment status</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(to right, var(--bg-color-start), var(--bg-color-end));
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        :root {
+            --bg-color-start: #ff9a9e;
+            --bg-color-end: #fad0c4;
+            --container-bg-color: #fff3e0;
+            --text-color: #333;
+            --title-color: #ff6f61;
+            --button-bg-color: #ff6f61;
+            --button-text-color: #fff;
+        }
+
+        .status-container {
+            background-color: var(--container-bg-color);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 900px;
+            width: 80%;
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+
+        h1 {
+            color: var(--title-color);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        p {
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .status-container img {
+            max-width: 200px;
+            margin-top: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--title-color);
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+        }
+
+        .usage-info {
+            background-color: #ffe0b2;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 25px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .usage-info h2 {
+            color: var(--title-color);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .usage-info p {
+            font-size: 1rem;
+            color: var(--text-color);
+            line-height: 1.4;
+        }
+
+        .usage-info ul {
+            padding-left: 20px;
+            font-size: 1rem;
+            color: #555;
+            columns: 2;
+            -webkit-columns: 2;
+            -moz-columns: 2;
+        }
+
+        .usage-info ul li {
+            margin-bottom: 8px;
+        }
+
+        .usage-info code {
+            background-color: var(--button-bg-color);
+            color: var(--button-text-color);
+            padding: 4px 8px;
+            border-radius: 5px;
+        }
+
+        .theme-selector {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .theme-button {
+            background-color: var(--button-bg-color);
+            color: var(--button-text-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .theme-button:hover {
+            opacity: 0.8;
+        }
+
+        /* Hover effects for links */
+        .status-container:hover {
+            transform: translateY(-10px);
+            transition: transform 0.3s ease;
+        }
+
+        /* Media Queries for Tablet View */
+        @media (max-width: 900px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            p, .usage-info p {
+                font-size: 0.9rem;
+            }
+
+            .usage-info h2 {
+                font-size: 1.3rem;
+            }
+
+            .usage-info ul {
+                columns: 1;
+                -webkit-columns: 1;
+                -moz-columns: 1;
+            }
+
+            .theme-button {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="status-container">
+        <h1>🎉 success! Criss AI deployed 🎉</h1>
+        <p>the bot is now online and fully operational. 😊</p>
+        <img src="https://files.catbox.moe/gs8gi2.jpg" alt="Criss AI bot image">
+        <button class="theme-button" onclick="chatOwner()">Chat Owner</button> <!-- New button added here -->
+        
+        <div class="usage-info">
+            <h2>🤖 how to use Criss AI bot 🤖</h2>
+            <p><strong>prefix:</strong> the bot's prefix is <code>.</code>.</p>
+            <p>here are some commands to get started:</p>
+            <ul>
+                <li><code>.help</code> - displays a list of available commands.</li>
+                <li><code>.ping</code> - check if the bot is online and responsive.</li>
+                <li><code>.info</code> - get information about the bot.</li>
+                <li><code>.weather &lt;location&gt;</code> - get the current weather for a specified location.</li>
+                <li><code>.news</code> - get the latest news headlines.</li>
+                <li><code>.joke</code> - get a random joke.</li>
+                <li><code>.quote</code> - get a random inspirational quote.</li>
+                <li><code>.play &lt;song name&gt;</code> - play a song from the bot's music library.</li>
+                <li><code>.stop</code> - stop the currently playing song.</li>
+                <li><code>.remind &lt;time&gt; &lt;message&gt;</code> - set a reminder for a specified time.</li>
+                <li><code>.translate &lt;text&gt; to &lt;language&gt;</code> - translate text to the specified language.</li>
+                <li><code>.define &lt;word&gt;</code> - get the definition of a word.</li>
+                <li><code>.synonym &lt;word&gt;</code> - get synonyms for a word.</li>
+                <li><code>.antonym &lt;word&gt;</code> - get antonyms for a word.</li>
+                <li><code>.time</code> - get the current time.</li>
+                <li><code>.date</code> - get the current date.</li>
+                <li><code>.math &lt;expression&gt;</code> - solve a math expression.</li>
+                <li><code>.currency &lt;amount&gt; &lt;from currency&gt; to &lt;to currency&gt;</code> - convert currency.</li>
+                <li><code>.crypto &lt;amount&gt; &lt;from cryptocurrency&gt; to &lt;to cryptocurrency&gt;</code> - convert cryptocurrency.</li>
+                <li><code>.remind &lt;time&gt; &lt;message&gt;</code> - set a reminder.</li>
+                <li><code>.reminders</code> - list all active reminders.</li>
+                <li><code>.delete reminder &lt;id&gt;</code> - delete a specific reminder.</li>
+                <li><code>.alarm &lt;time&gt;</code> - set an alarm.</li>
+                <li><code>.alarms</code> - list all active alarms.</li>
+                <li><code>.delete alarm &lt;id&gt;</code> - delete a specific alarm.</li>
+                <li><code>.todo &lt;task&gt;</code> - add a task to the to-do list.</li>
+                <li><code>.todos</code> - list all tasks in the to-do list.</li>
+                <li><code>.delete todo &lt;id&gt;</code> - delete a specific task from the to-do list.</li>
+                <li><code>.note &lt;note&gt;</code> - add a note.</li>
+                <li><code>.notes</code> - list all notes.</li>
+                <li><code>.delete note &lt;id&gt;</code> - delete a specific note.</li>
+                <li><code>.weather &lt;location&gt;</code> - get the weather for a location.</li>
+                <li><code>.forecast &lt;location&gt;</code> - get the weather forecast for a location.</li>
+                <li><code>.news</code> - get the latest news headlines.</li>
+                <li><code>.trending</code> - get the latest trending topics.</li>
+                <li><code>.quote</code> - get a random quote.</li>
+                <li><code>.joke</code> - get a random joke.</li>
+                <li><code>.meme</code> - get a random meme.</li>
+                <li><code>.fact</code> - get a random fact.</li>
+                <li><code>.advice</code> - get a random piece of advice.</li>
+                <li><code>.trivia</code> - get a random trivia question.</li>
+                <li><code>.riddle</code> - get a random riddle.</li>
+                <li><code>.poll &lt;question&gt;</code> - create a poll.</li>
+                <li><code>.vote &lt;option&gt;</code> - vote in a poll.</li>
+                <li><code>.polls</code> - list all active polls.</li>
+                <li><code>.delete poll &lt;id&gt;</code> - delete a specific poll.</li>
+                <!-- Add more commands here as needed -->
+            </ul>
+            <p>use the prefix <code>.</code> before any command to interact with joel xmd bot.</p>
+        </div>
+
+        <div class="footer">
+            <img src="https://files.catbox.moe/gs8gi2.jpg" alt="owner's display picture">
+            <p>owner: joel james tech</p>
+        </div>
+
+        <div class="theme-selector">
+            <button class="theme-button" onclick="setTheme('default')">Default</button>
+            <button class="theme-button" onclick="setTheme('red')">Red</button> <!-- New theme buttons -->
+            <button class="theme-button" onclick="setTheme('yellow')">Yellow</button>
+            <button class="theme-button" onclick="setTheme('blue')">Blue</button>
+            <button class="theme-button" onclick="setTheme('black')">Black</button>        </div>
+    </div>
+
+    <script>
+        function setTheme(theme) {
+            const root = document.documentElement;
+            switch(theme) {
+                case 'pastel':
+                    root.style.setProperty('--bg-color-start', '#ff9a9e');
+                    root.style.setProperty('--bg-color-end', '#fad0c4');
+                    root.style.setProperty('--container-bg-color', '#fff3e0');
+                    root.style.setProperty('--text-color', '#333');
+                    root.style.setProperty('--title-color', '#ff6f61');
+                    root.style.setProperty('--button-bg-color', '#ff6f61');
+                    root.style.setProperty('--button-text-color', '#fff');
+                    break;
+                case 'sunset':
+                    root.style.setProperty('--bg-color-start', '#ff7e5f');
+                    root.style.setProperty('--bg-color-end', '#feb47b');
+                    root.style.setProperty('--container-bg-color', '#fff7e0');
+                    root.style.setProperty('--text-color', '#4a4a4a');
+                    root.style.setProperty('--title-color', '#ff7849');
+                    root.style.setProperty('--button-bg-color', '#ff7849');
+                    root.style.setProperty('--button-text-color', '#fff');
+                    break;
+                case 'ocean':
+                    root.style.setProperty('--bg-color-start', '#2193b0');
+                    root.style.setProperty('--bg-color-end', '#6dd5ed');
+                    root.style.setProperty('--container-bg-color', '#e0f7ff');
+                    root.style.setProperty('--text-color', '#2c3e50');
+                    root.style.setProperty('--title-color', '#2980b9');
+                    root.style.setProperty('--button-bg-color', '#2980b9');
+                    root.style.setProperty('--button-text-color', '#fff');
+                    break;
+                case 'red':
+                    root.style.setProperty('--bg-color-start', '#ff0000');
+                    root.style.setProperty('--bg-color-end', '#ff4d4d');
+                    root.style.setProperty('--container-bg-color', '#ffe6e6');
+                    root.style.setProperty('--text-color', '#800000');
+                    root.style.setProperty('--title-color', '#b30000');
+                    root.style.setProperty('--button-bg-color', '#b30000');
+                    root.style.setProperty('--button-text-color', '#fff');
+                    break;
+                case 'yellow':
+                    root.style.setProperty('--bg-color-start', '#ffff00');
+                    root.style.setProperty('--bg-color-end', '#ffff99');
+                    root.style.setProperty('--container-bg-color', '#ffffe6');
+                    root.style.setProperty('--text-color', '#808000');
+                    root.style.setProperty('--title-color', '#b3b300');
+                    root.style.setProperty('--button-bg-color', '#b3b300');
+                    root.style.setProperty('--button-text-color', '#fff');
+                    break;
+                case 'blue':
+                    root.style.setProperty('--bg-color-start', '#0000ff');
+                    root.style.setProperty('--bg-color-end', '#4d4dff');
+                    root.style.setProperty('--container-bg-color', '#e6e6ff');
+                    root.style.setProperty('--text-color', '#000080');
+                    root.style.setProperty('--title-color', '#0000b3');
+                    root.style.setProperty('--button-bg-color', '#0000b3');
+                    root.style.setProperty('--button-text-color', '#fff');
+                    break;
+                case 'black':
+                    root.style.setProperty('--bg-color-start', '#000000');
+                    root.style.setProperty('--bg-color-end', '#333333');
+                    root.style.setProperty('--container-bg-color', '#e6e6e6');
+                    root.style.setProperty('--text-color', '#ffffff');
+                    root.style.setProperty('--title-color', '#999999');
+                    root.style.setProperty('--button-bg-color', '#666666');
+                    root.style.setProperty('--button-text-color', '#fff');
+                    break;
+                default:
+                    root.style.setProperty('--bg-color-start', '#ff9a9e');
+                    root.style.setProperty('--bg-color-end', '#fad0c4');
+                    root.style.setProperty('--container-bg-color', '#fff3e0');
+                    root.style.setProperty('--text-color', '#333');
+                    root.style.setProperty('--title-color', '#ff6f61');
+                    root.style.setProperty('--button-bg-color', '#ff6f61');
+                    root.style.setProperty('--button-text-color', '#fff');
+                    break;
+            }
+        }
+
+        // New function added here
+        function chatOwner() {
+            window.location.href = "https://wa.me/255687068672";
+        }
+    </script>
+</body>
+</html>
